@@ -1,0 +1,146 @@
+#Proj 4- POP CULTURE IT QUIZ
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pop Culture Quiz Website">
+    <title>Pop Culture Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(45deg, #ff6b81, #ffcc5c);
+            text-align: center;
+            color: white;
+            transition: background 0.5s ease-in-out;
+        }
+
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+
+        button {
+            background: #ff6b81;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #ff4b6e;
+        }
+
+        .result {
+            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <h1>Pop Culture Quiz</h1>
+        <p class="question" id="questionText">Loading question...</p>
+        <div class="options" id="optionsContainer"></div>
+        <p class="result" id="resultText"></p>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "Who won the Grammy for Album of the Year in 2023?",
+                options: ["Harry Styles", "Beyoncé", "Adele", "Taylor Swift"],
+                answer: "Harry Styles"
+            },
+            {
+                question: "Which movie won Best Picture at the 2023 Oscars?",
+                options: ["Top Gun: Maverick", "Everything Everywhere All at Once", "Avatar: The Way of Water", "Elvis"],
+                answer: "Everything Everywhere All at Once"
+            },
+            {
+                question: "Which TV show had the most watched finale in history?",
+                options: ["Game of Thrones", "Friends", "Breaking Bad", "M*A*S*H"],
+                answer: "M*A*S*H"
+            }
+        ];
+
+        let currentQuestion = 0;
+
+        function loadQuestion() {
+            const questionText = document.getElementById("questionText");
+            const optionsContainer = document.getElementById("optionsContainer");
+            const resultText = document.getElementById("resultText");
+
+            questionText.textContent = quizData[currentQuestion].question;
+            optionsContainer.innerHTML = "";
+
+            quizData[currentQuestion].options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option);
+                optionsContainer.appendChild(button);
+            });
+
+            resultText.textContent = "";
+        }
+
+        function checkAnswer(selectedAnswer) {
+            const resultText = document.getElementById("resultText");
+            if (selectedAnswer === quizData[currentQuestion].answer) {
+                resultText.textContent = "✅ Correct!";
+                resultText.style.color = "#32CD32";
+            } else {
+                resultText.textContent = "❌ Wrong! The correct answer was: " + quizData[currentQuestion].answer;
+                resultText.style.color = "#FF4B6E";
+            }
+
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < quizData.length) {
+                    loadQuestion();
+                } else {
+                    resultText.textContent = "🎉 Quiz Completed!";
+                }
+            }, 1500);
+        }
+
+        loadQuestion();
+    </script>
+
+</body>
+</html>
